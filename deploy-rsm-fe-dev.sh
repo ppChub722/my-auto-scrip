@@ -19,10 +19,12 @@ AUTO_IGNORE_KEYWORD="local commit"
 # The script uses sed to append to this list automatically. 
 # Do not change the format of the line below.
 IGNORE_LIST="
+9c69b169fdb25fd643259f463b1b39942e8fc9ff
 5bd90714ec6b5a0c6fca69eb70d3b270deb96cca
 98763000aef35073ca93c63c28b7fa8f9f2c9b8f
 21bf0ca36182549d26f245d749b88cfba4b777c5
 acb09310036f7f17160c10f635f06a462433e20f
+7b1bbf9636e97cec48ff3e8cae180ad8a647011f
 "
 # =================================================
 
@@ -112,6 +114,7 @@ if [ $JUNK_COUNT -gt 0 ]; then
             sed -i "/IGNORE_LIST=\"/a $J_HASH" "$0"
             # 2. Add to memory (for the next filter step)
             IGNORE_LIST="$IGNORE_LIST $J_HASH"
+9c69b169fdb25fd643259f463b1b39942e8fc9ff
         done
         echo "   ✅ Updated. Re-calculating queue..."
     else
