@@ -1,9 +1,20 @@
 #!/bin/bash
 
-# ================= CONFIGURATION =================
-PROJECT_PATH="/c/Users/user/Documents/Projects/rcl-rsm-be-deploy" 
-cd "$PROJECT_PATH" || { echo "❌ Cannot find project path: $PROJECT_PATH"; exit 1; }
+# --- 1. DYNAMIC PATH LOADING ---
+# Find where this script is stored to locate the .env.local file
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+if [ -f "$SCRIPT_DIR/.env.local" ]; then
+    source "$SCRIPT_DIR/.env.local"
+else
+    echo "❌ Error: .env.local missing in $SCRIPT_DIR"
+    exit 1
+fi
+
+# --- 2. CONFIGURATION ---
+# Use the BE path from .env.local (set per PC)
+PROJECT_PATH="$PROJECT_PATH_RSM_BE"
+cd "$PROJECT_PATH" || { echo "❌ Cannot find project path: $PROJECT_PATH"; exit 1; }
 echo "📂 Working directory: $(pwd)"
 
 # BRANCH DEFINITIONS
@@ -108,7 +119,6 @@ if [ $JUNK_COUNT -gt 0 ]; then
             sed -i "/IGNORE_LIST=\"/a $J_HASH" "$0"
             # 2. Add to memory
             IGNORE_LIST="$IGNORE_LIST $J_HASH"
-65bc302b0421dabb3b966476fbbaab33f35a015b
         done
         echo "   ✅ Updated. Re-calculating queue..."
     else
