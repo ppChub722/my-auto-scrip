@@ -1,0 +1,7 @@
+# RSM-FE deploy: commit hashes to ignore (one per line). Auto-appended when you add "local commit" to ignore list.
+9c69b169fdb25fd643259f463b1b39942e8fc9ff
+5bd90714ec6b5a0c6fca69eb70d3b270deb96cca
+98763000aef35073ca93c63c28b7fa8f9f2c9b8f
+21bf0ca36182549d26f245d749b88cfba4b777c5
+acb09310036f7f17160c10f635f06a462433e20f
+7b1bbf9636e97cec48ff3e8cae180ad8a647011f

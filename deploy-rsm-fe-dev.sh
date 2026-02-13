@@ -28,17 +28,12 @@ DEVELOP_BRANCH="develop"
 # 🔍 AUTO IGNORE SETTINGS
 AUTO_IGNORE_KEYWORD="local commit"
 
-# ⛔ IGNORE LIST
-# The script uses sed to append to this list automatically. 
-# Do not change the format of the line below.
-IGNORE_LIST="
-9c69b169fdb25fd643259f463b1b39942e8fc9ff
-5bd90714ec6b5a0c6fca69eb70d3b270deb96cca
-98763000aef35073ca93c63c28b7fa8f9f2c9b8f
-21bf0ca36182549d26f245d749b88cfba4b777c5
-acb09310036f7f17160c10f635f06a462433e20f
-7b1bbf9636e97cec48ff3e8cae180ad8a647011f
-"
+# ⛔ IGNORE LIST (external file in autoScript repo)
+IGNORE_LIST_FILE="$SCRIPT_DIR/ignore-list-fe.txt"
+IGNORE_LIST=""
+if [ -f "$IGNORE_LIST_FILE" ]; then
+    IGNORE_LIST=$(grep -v '^#' "$IGNORE_LIST_FILE" | grep -v '^$' || true)
+fi
 # =================================================
 
 stop_on_error() {
@@ -123,12 +118,12 @@ if [ $JUNK_COUNT -gt 0 ]; then
     if [[ "$IGNORE_ACTION" =~ ^[Yy]$ ]]; then
         echo "   ...Updating Ignore List..."
         for J_HASH in "${JUNK_HASHES[@]}"; do
-            # 1. Add to file (Warning: Modifies the script itself)
-            sed -i "/IGNORE_LIST=\"/a $J_HASH" "$0"
-            # 2. Add to memory (for the next filter step)
+            echo "$J_HASH" >> "$IGNORE_LIST_FILE"
             IGNORE_LIST="$IGNORE_LIST $J_HASH"
         done
         echo "   ✅ Updated. Re-calculating queue..."
+        # Commit and push ignore-list file in autoScript repo
+        (cd "$SCRIPT_DIR" && git add "$(basename "$IGNORE_LIST_FILE")" && git commit -m "chore: add local commits to ignore list" && git push origin) && echo "   📤 Ignore list committed and pushed to origin." || echo "   ⚠️ Could not commit/push (check autoScript repo)."
     else
         echo "   👌 Keeping them in deployment queue."
     fi
@@ -212,7 +207,7 @@ function process_and_push {
         fi
     done
 
-    # 3. PUSH TO ORIGIN
+    # PUSH TO ORIGIN
     echo "⬆️  Pushing $TARGET to origin..."
     git push origin $TARGET
     stop_on_error "Failed to push $TARGET"

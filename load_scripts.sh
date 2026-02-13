@@ -12,6 +12,11 @@
 # Get the folder where this file is located (works on any PC)
 AUTO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# Pull this repo (autoScript) so scripts stay up to date when you source
+if [ -d "$AUTO_ROOT/.git" ]; then
+    (cd "$AUTO_ROOT" && git pull --quiet 2>/dev/null) && echo "📥 autoScript: updated." || true
+fi
+
 if [ -f "$AUTO_ROOT/.env.local" ]; then
     source "$AUTO_ROOT/.env.local"
 else

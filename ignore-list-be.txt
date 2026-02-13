@@ -1,0 +1,9 @@
+# RSM-BE deploy: commit hashes to ignore (one per line). Auto-appended when you add "local commit" to ignore list.
+02d1d7829dfdf8fd56e416973ed0170ac4eff75c
+bba12f349112c0e0cce0cf34a9d155dc6c988376
+65bc302b0421dabb3b966476fbbaab33f35a015b
+733d71d14b05db3aa1e1a80ab8732820eabb240e
+b0b31a15de4f6b27b56074ae5a7c3330cce55bbc
+82f0efbacbda58a1cc818e82154edb830e8ac1af
+89985baa577682cf05ebd8aadb4ba2e547706a12
+50860df8d89e7139a29cf5330646af71bafdd229
